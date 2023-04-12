@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/customerRegistration', function () {return view('customer.registration');})->name('customerRegistration');
+Route::post('/customerRegistration',[AuthController::class, 'customerCreateSubmit'])->name('customerRegistration');
+Route::get('/customerOtp', function () {return view('customer.email.otp');})->name('customerOtp');
+Route::post('/customerOtp',[AuthController::class, 'otpsend'])->name('customerOtp');
