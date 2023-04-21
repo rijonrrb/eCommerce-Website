@@ -9,4 +9,12 @@ class Customer extends Model
 {
     use HasFactory;
     public $timestamps = false;
+
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'google_id'
+    ];
+
 }

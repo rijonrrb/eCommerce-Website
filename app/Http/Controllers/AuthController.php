@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\CustomerRegMail;
 use DateTime;
+use Cookie;
 
 class AuthController extends Controller
 {
@@ -56,13 +57,12 @@ class AuthController extends Controller
           $Customer->email = $request->email;
           $request->session()->put('email',$request->email);
           $Customer->password = md5($request->password);
-          $code = rand(1000,9000);
+          $code = rand(10000,90000);
           $details = [
               'name' => $Customer->name,
               'code' => $code
           ];
           $Customer->otp = $code;
-
           Mail::to($request->email)->send(new CustomerRegMail($details));
           $result = $Customer->save();
           if($result){
@@ -90,10 +90,26 @@ class AuthController extends Controller
     if($user->otp === $request->otp){
         $user->otp = "Approved";
         $user->save();
-        return  redirect()->route('CustomerLogin');
+        return  redirect()->route('customerLogin');
     }
     else{
         return redirect()->back()->with('failed', 'Wrong OTP');
+    }
+
+    }
+
+    public function otpresend (){
+    $user = Customer::where('email',session()->get('email'))->first();
+    $code = rand(10000,90000);
+    $user->otp = $code;
+    $details = [
+        'name' => $user->name,
+        'code' => $code
+    ];
+    Mail::to($user->email)->send(new CustomerRegMail($details));
+    $result = $user->save();
+    if($result){
+        return redirect()->back();
     }
 
     }
@@ -114,31 +130,35 @@ class AuthController extends Controller
             $request->session()->put('permanentadd',$loginCheck->permanentadd);
             $request->session()->put('presentadd',$loginCheck->presentadd);
             $request->session()->put('password',$loginCheck->password);
-            return  redirect()->route('CustomerDash');
+            if($request->has('rememberme'))
+            {
+                Cookie::queue('customer_email',$request->email, 1440);
+                Cookie::queue('customer_password',$request->password, 1440);
+            }
+            return  redirect()->route('dashboard');
         }
         else{
-            return redirect()->back()->with('failed', 'This Email is not verified yet...');
+            return redirect()->back()->with('failedotp', 'This Email is not verified yet...');
         }
     }
     else{
+        
         return redirect()->back()->with('failed', 'Invalid Login Information');
     }
     }
 
-    public function logout(){
+    public function customerlogout(){
         session()->forget('id');
         session()->forget('name');
         session()->forget('gender');
         session()->forget('dob');
         session()->forget('phone');
         session()->forget('email');
-        session()->forget('peraddress');
-        session()->forget('preaddress');
-        session()->forget('nid');
-        session()->forget('dlic');
-        session()->forget('username');
+        session()->forget('permanentadd');
+        session()->forget('presentadd');
         session()->forget('password');
-        session()->forget('image');
-        return redirect()->route('CustomerLogin');
+        Cookie::queue(Cookie::forget('customer_email'));
+        Cookie::queue(Cookie::forget('customer_password'));
+        return redirect()->route('customerLogin');
     }
 }
