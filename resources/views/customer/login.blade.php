@@ -253,7 +253,7 @@ input:checked + .slider:before {
                     <input type="submit" class="btn btn-lg btn-block btn-success" value="Sign in">
                  </form>
                  <p id="h2" class="mt-5 mb-5"><span>or</span></p>
-                 <p class="ml-2 mb-4">Login with -<a href="#"><img style="max-width: 30px;" src="{{asset('image/google.png')}}" class="ml-3"></a></p>
+                 <p class="ml-2 mb-4">Login with -<a href="{{url('/redirect')}}"><img style="max-width: 30px;" src="{{asset('image/google.png')}}" class="ml-3"></a></p>
             </div>
             <div class="col-md-10 col-lg-6 col-xl-7">
                             <img src="https://img.freepik.com/free-vector/flat-online-shopping-concept_52683-63899.jpg?w=740&t=st=1681982044~exp=1681982644~hmac=5a19dda5f843a994bcdfa4bb981ec1cbdf48f378ddda9acc5e126b1047c16c30"

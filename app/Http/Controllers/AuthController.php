@@ -8,6 +8,8 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\CustomerRegMail;
 use DateTime;
+use Socialite;
+use Auth;
 use Cookie;
 
 class AuthController extends Controller
@@ -66,7 +68,7 @@ class AuthController extends Controller
           Mail::to($request->email)->send(new CustomerRegMail($details));
           $result = $Customer->save();
           if($result){
-              return redirect()->route('CustomerOtp');
+              return redirect()->route('customerOtp');
           }
           else{
               return redirect()->back()->with('failed', 'Registration Failed');
@@ -161,4 +163,33 @@ class AuthController extends Controller
         Cookie::queue(Cookie::forget('customer_password'));
         return redirect()->route('customerLogin');
     }
+
+    public function redirect()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+    public function callback()
+    {
+        try {
+            $user = Socialite::driver('google')->user();
+            $exist_user = Customer::where('google_id',$user->id)->first();
+
+            if($exist_user){
+                return redirect('/dashboard');
+            }
+            else{
+                $newUser = Customer::create([
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'google_id' => $user->id,
+                ]);
+                return redirect('/dashboard');
+            }
+        }
+        catch (Exception $e) 
+        {
+             dd($e->getMessage());
+        }
+    }
+
 }
