@@ -13,7 +13,7 @@
     <div class="container py-5" style="margin-top:150px">
         <div class="row">
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 m-auto">
-                <form action="#" method="post" autocomplete="off">
+                <form action="{{ route('forgetPassword') }}" method="post" autocomplete="off">
                     @csrf
                     <div class="card shadow">
 
@@ -35,7 +35,8 @@
 
                         <div class="card-body px-4">
                             <div class="form-group py-2">
-                                <input type="email" name="email" class="form-control mt-4" value="{{ old('email') }}" placeholder="Your Email">
+                            <input type="email" name="email" class="form-control mt-4 {{$errors->first('email') ? 'is-invalid' : ''}}" value="{{ old('email') }}" placeholder="Your Email">
+                                    {!! $errors->first('email', '<div class="invalid-feedback">:message</div>') !!}
                             </div>
 
                             <div class="form-group text-end">

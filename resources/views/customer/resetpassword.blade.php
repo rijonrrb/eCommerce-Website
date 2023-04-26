@@ -13,7 +13,7 @@
     <div class="container py-5" style="margin-top:150px;">
         <div class="row">
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 m-auto">
-                <form action="#" method="post" autocomplete="off">
+                <form action="{{route('resetpassword')}}" method="post" autocomplete="off">
                     @csrf
 
                     <div class="card shadow">
@@ -36,15 +36,15 @@
 
                         <div class="card-body px-4">
 
-                            <input type="hidden" name="email" value="a"/>
+                            <input type="hidden" name="email" value="{{ $email }}"/>
 
                             <div class="form-group py-2 mt-3">
-                                <input type="password" name="password" class="form-control {{$errors->first('password') ? 'is-invalid' : ''}}" value="{{ old('password') }}" placeholder="New Password">
+                                <input type="password" name="password" class="form-control {{$errors->first('password') ? 'is-invalid' : ''}}" placeholder="New Password">
                                     {!! $errors->first('password', '<div class="invalid-feedback">:message</div>') !!}
                             </div>
 
                             <div class="form-group py-2 mt-3 mb-3">
-                                <input type="password" name="confirm_password" class="form-control {{$errors->first('confirm_password') ? 'is-invalid' : ''}}" value="{{ old('confirm_password') }}" placeholder="Confirm Password">
+                                <input type="password" name="confirm_password" class="form-control {{$errors->first('confirm_password') ? 'is-invalid' : ''}}" placeholder="Confirm Password">
                                 {!! $errors->first('confirm_password', '<div class="invalid-feedback">:message</div>') !!}
                             </div>
                         </div>

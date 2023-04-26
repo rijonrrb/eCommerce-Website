@@ -7,57 +7,60 @@
     <meta name="x-apple-disable-message-reformatting">
     <title></title>
     <style>
-        table,
-        td,
-        div,
-        h1,
-        p {
-            font-weight: 500;
-            font-family: Arial, sans-serif;
-            
-        }
         p{
             color: #6c757d;
         }
-        .btn {margin: 10px 0px;
-            border-radius: 4px;
+        .button {
+            background-color: white; 
+            border: 2px solid #008CBA;
+            border-radius: 10px;
+            color: black; 
+            padding: 12px 16px;
+            text-align: center;
             text-decoration: none;
-            color: #fff !important;
-            height: 46px;
-            padding: 10px 20px;
-            font-size: 16px;
-            font-weight: 600;
-            background-image: linear-gradient(to right top, #021d68, #052579, #072d8b, #09369d, #093fb0) !important;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            transition-duration: 0.4s;
+            cursor: pointer;
         }
-        .btn:hover {
-            text-decoration: none;
-            opacity: .8;
+        .button:hover {
+            background-color: #008CBA;
+            color: white;
+        }
+        h3 {
+            font-family: "Roboto Condensed", Sans-Serif;
+            font-size: 35px;
+            max-width: 100%;
+            text-align: center;
+        }
+        img {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
     </style>
 </head>
-<body style="margin:50px;padding:0;">
-
-                                        <h3 style="font-weight:bold;margin:0 0 20px 0;font-family:Arial,sans-serif;">
-                                            Hello Abc,</h3>
-                                        <p
-                                            style="margin:0 0 12px 0;font-size:14px;line-height:24px;font-family:Arial,sans-serif;">
-                                            We've received a request to reset the password.
-                                            </p>
-                                        <p
-                                            style="margin:10px 0 12px 0;font-size:14px;line-height:24px;font-family:Arial,sans-serif;">
-                                            You can reset your password by clicking the button below:
-                                        </p>
-
-                                        <p style="text-align: center;">
-                                            <a href="#" class="btn">Reset your password</a>
-                                        </p>
-
-
-                                        <p style="margin:100px 0 12px 0;font-size:14px;font-family:Arial,sans-serif;">
-                                            Thank
-                                            you, </p>
-                                        <p style="margin:0 0 12px 0;font-size:14px;font-family:Arial,sans-serif;">
-                                            Programming Fields </p>
+<body style="text-align: center;">
+    <img src="https://img.freepik.com/free-vector/reset-password-concept-illustration_114360-7886.jpg?w=740&t=st=1682504848~exp=1682505448~hmac=bacb4b34a31064d597b49911bf39cbb869a490bc734718bb869bab28468d4d2e" alt="" width="600" height="400">
+    <h4 style="font-size:20px;font-weight:bold;font-family:Arial,sans-serif;">
+    Hello {{ $details['name'] }}!</h4>
+    <p style="font-size:14px;line-height:24px;font-family:Arial,sans-serif;">
+        We've received a request to reset the password.
+    </p>
+    <p style="font-size:14px;line-height:24px;font-family:Arial,sans-serif;">
+        You can reset your password by clicking the button below:
+    </p>
+    <br>
+    <p style="font-size:14px;line-height:24px;font-family:Arial,sans-serif;">
+    <a href="{{'http://127.0.0.1:8000/customer/Reset_Password/'.$details['email']}}"  class="button">Reset password</a>
+    </p>
+    <br>
+    <h3 style="text-decoration: solid underline #e59c16 5px;">Thank you</h3>
+    <p>Ecommerce.Com</p>
 
 </body>
 </html>

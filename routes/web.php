@@ -29,5 +29,8 @@ Route::get('/customer/Logout',[AuthController::class, 'customerlogout'])->name('
 Route::get('/redirect',[AuthController::class, 'redirect'])->name('redirect');
 Route::get('/callback',[AuthController::class, 'callback'])->name('callback');
 Route::get('/customer/Forget_Password', function () {return view('customer.forgetpassword');})->name('forgetPassword');
-Route::get('/customer/Reset_Password', function () {return view('customer.resetpassword');})->name('resetpassword');
-Route::get('/email', function () {return view('email.resetpasswordEmail');})->name('reset');
+Route::post('/customer/Forget_Password', [AuthController::class, 'forgetPasswordSubmit'])->name('forgetPassword');
+Route::get('/customer/Reset_Password/{email}', [AuthController::class, 'resetpassword'])->name('resetpassword'); 
+Route::post('/customer/Reset_Password', [AuthController::class, 'resetpasswordSubmit'])->name('resetpassword');
+// Route::get('/email', function () {return view('email.resetpasswordEmail');})->name('reset');
+// Route::get('/email2', function () {return view('email.confirmEmail');})->name('reset2');

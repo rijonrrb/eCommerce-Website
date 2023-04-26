@@ -244,8 +244,7 @@ input:checked + .slider:before {
                       <span class="slider round"></span>
                     </label>
                       <label class="form-check-label" for="exampleCheck1">Remember me</label>
-                      
-                      <label class="forgot-password"><a href="#">Forgot Password?<a></label>
+                      <label class="forgot-password"><a href="{{route('forgetPassword')}}" target="_blank">Forgot Password?<a></label>
 
                     </div>
                   

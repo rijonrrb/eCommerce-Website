@@ -7,6 +7,7 @@ use App\Models\Customer;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\CustomerRegMail;
+use App\Mail\PasswordResetMail;
 use DateTime;
 use Socialite;
 use Auth;
@@ -191,5 +192,76 @@ class AuthController extends Controller
              dd($e->getMessage());
         }
     }
+
+    public function forgetPasswordSubmit(Request $request){
+
+        $validate = $request->validate([
+              'email'=>'required|email',  
+          ],
+          [
+          'email.required'=>"Email Address field is required.",
+          ]
+      );
+
+      $userCheck = Customer::where('email',$request->email)->first();
+      if($userCheck){
+  
+          $details = [
+              'name' => $userCheck->name,
+              'email' => $userCheck->email
+          ];
+          $result= Mail::to($request->email)->send(new PasswordResetMail($details));
+          if($result) {
+            return redirect()->back()->with('success', 'Success! password reset link has been sent to your email');
+        }
+        else{
+            return redirect()->back()->with('failed', 'Failed! there is some issue with email provider');
+        }
+        
+      }
+      else{
+
+        return redirect()->back()->with('failed', 'Email not registered');
+    }
+
+   }
+
+   public function resetpassword($email){
+      
+    return view('customer.resetpassword')->with('email', $email);
+   }
+
+   public function resetpasswordSubmit(Request $request){
+    $validate = $request->validate([
+        'password'=>'required|min:5',
+        'confirm_password'=>'required|min:5',
+        
+    ],
+    [
+        'password.required'=>"Password field is required.",
+        'confirm_password.required'=>"Confirm Password field is required."
+    ]
+ );
+ $pass=$request->password;
+ $cpass=$request->confirm_password;
+
+ if ($cpass == $pass)  
+ {
+ $user = Customer::where('email',$request->email)->first();
+ $user->password = md5($request->password);
+ $result = $user->save();
+ if($result){
+
+    return redirect()->back()->with('success', 'Success! password has been changed');
+}
+else{
+    return redirect()->back()->with('failed', 'Failed! something went wrong');
+ }
+ }
+ else
+ {
+    return redirect()->back()->with('failed', 'Both of the Password doesnt matched'); 
+ }
+ }
 
 }
